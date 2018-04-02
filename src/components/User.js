@@ -12,7 +12,7 @@ export class User extends React.Component {
         {({ loading, error, data }) => {
           if (loading) return <div>Loading user...</div>
           if (error) return <div>An error has occured.</div>
-          console.log(data)
+          console.log(this.props)
           return (
             <div>
               <h1>User {data.user.username}</h1>
