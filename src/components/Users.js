@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo'
 import CreateUser from './CreateUser'
 
 class Users extends React.Component {
-  componentDidMount() {
+  componentDidMount () {
     console.log('From Users.js', this.props)
   }
 
@@ -13,7 +13,7 @@ class Users extends React.Component {
     console.log(newProps)
   }
 
-  render() {
+  render () {
     return (
       <div>
         <h1>Users</h1>
@@ -22,7 +22,9 @@ class Users extends React.Component {
         <div>
           {this.props.data.users && (
             <ul>
-              {this.props.data.users.map(user => <li>{user.username}</li>)}
+              {this.props.data.users.map(user => (
+                <li key={user._id}>{user.username}</li>
+              ))}
             </ul>
           )}
         </div>
@@ -32,7 +34,7 @@ class Users extends React.Component {
   }
 }
 
-const GET_USERS_QUERY = gql`
+export const GET_USERS_QUERY = gql`
   {
     users {
       _id

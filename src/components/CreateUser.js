@@ -2,6 +2,8 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
+import { GET_USERS_QUERY } from './Users'
+
 class CreateUser extends React.Component {
   state = { username: '', email: '', password: '' }
 
@@ -12,7 +14,8 @@ class CreateUser extends React.Component {
 
     this.props
       .mutate({
-        variables: { username, email, password }
+        variables: { username, email, password },
+        refetchQueries: [{ query: GET_USERS_QUERY }]
       })
       .then(({ data }) => {
         console.log(data)
@@ -22,7 +25,7 @@ class CreateUser extends React.Component {
       })
   }
 
-  render() {
+  render () {
     return (
       <div>
         <form onSubmit={this.onSubmit}>
@@ -60,6 +63,7 @@ class CreateUser extends React.Component {
 const CREATE_NEW_USER_QUERY = gql`
   mutation createUser($username: String!, $email: String!, $password: String!) {
     createUser(username: $username, email: $email, password: $password) {
+      _id
       username
     }
   }
