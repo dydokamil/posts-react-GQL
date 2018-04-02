@@ -28,6 +28,7 @@ class CreateUser extends React.Component {
   render () {
     return (
       <div>
+        <h1>Create a new user</h1>
         <form onSubmit={this.onSubmit}>
           <input
             placeholder="Username"
@@ -47,6 +48,7 @@ class CreateUser extends React.Component {
           />
           <input
             placeholder="Password"
+            type="password"
             onChange={evt =>
               this.setState({
                 password: evt.target.value

@@ -1,18 +1,14 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
+import { Link } from 'react-router-dom'
 
 import CreateUser from './CreateUser'
 
 class Users extends React.Component {
-  componentDidMount () {
-    console.log('From Users.js', this.props)
+  componentDidMount = () => {
+    console.log(this.props)
   }
-
-  componentWillReceiveProps = newProps => {
-    console.log(newProps)
-  }
-
   render () {
     return (
       <div>
@@ -23,7 +19,11 @@ class Users extends React.Component {
           {this.props.data.users && (
             <ul>
               {this.props.data.users.map(user => (
-                <li key={user._id}>{user.username}</li>
+                <li key={user._id}>
+                  <Link to={`/user/${user._id}`}>
+                    {user.username} (email: {user.email})
+                  </Link>
+                </li>
               ))}
             </ul>
           )}
@@ -39,6 +39,7 @@ export const GET_USERS_QUERY = gql`
     users {
       _id
       username
+      email
       createdAt
     }
   }
