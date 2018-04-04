@@ -4,7 +4,9 @@ import { Query, Mutation } from 'react-apollo'
 import CreatePost from './CreatePost'
 import { connect } from 'react-redux'
 import cookie from 'react-cookies'
+
 import { GET_SUBJECTS_QUERY } from './Subjects'
+import Post from './Post'
 
 export class Subject extends React.Component {
   handleDelete = (event, deleteSubject) => {
@@ -53,17 +55,10 @@ export class Subject extends React.Component {
                         <hr />
                         {data.subject.responses &&
                           data.subject.responses.map(response => (
-                            <div key={response._id}>
-                              <div>{response.message}</div>
-                              <div>
-                                <small>{response.author.username}</small>
-                              </div>
-                              <div>
-                                <small>{response.createdAt}</small>
-                              </div>
-
-                              <hr />
-                            </div>
+                            <Post
+                              response={response}
+                              subjectId={this.props.match.params.id}
+                            />
                           ))}
                       </div>
                     )}
