@@ -23,14 +23,17 @@ class Login extends React.Component {
       cookie.save('username', username, { path: '/' })
 
       this.props.login(username)
+      this.props.history.goBack()
     })
   }
 
   render () {
+    if (this.props.username) {
+      return <h3>You are already logged in.</h3>
+    }
     return (
       <Mutation mutation={LOGIN_QUERY}>
         {(login, { data, error, loading }) => {
-          // console.log(data)
           if (loading) return <div>Loading...</div>
           return (
             <div>
@@ -73,6 +76,10 @@ const LOGIN_QUERY = gql`
   }
 `
 
+const mapStateToProps = state => ({
+  username: state.loginReducer.username
+})
+
 const mapDispatchToProps = dispatch => ({
   login: username =>
     dispatch({
@@ -81,4 +88,4 @@ const mapDispatchToProps = dispatch => ({
     })
 })
 
-export default connect(undefined, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
