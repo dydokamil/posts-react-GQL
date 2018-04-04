@@ -6,14 +6,22 @@ import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory'
 import { HttpLink } from 'apollo-link-http'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { CookiesProvider } from 'react-cookie'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import logger from 'redux-logger'
 
 import './index.css'
 import Navbar from './components/Navbar'
 import Users from './components/Users'
+import Subject from './components/Subject'
+import Subjects from './components/Subjects'
 import User from './components/User'
 import Login from './components/Login'
 import App from './components/App'
+import NotFound from './components/NotFound'
 import registerServiceWorker from './registerServiceWorker'
+
+import rootReducer from './reducers'
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -34,21 +42,28 @@ const client = new ApolloClient({
   // })
 })
 
+const store = createStore(rootReducer, applyMiddleware(logger))
+
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <CookiesProvider>
-      <BrowserRouter>
-        <React.Fragment>
-          <Navbar />
-          <Switch>
-            <Route path="/user/:id" component={User} />
-            <Route path="/users" component={Users} />
-            <Route path="/login" component={Login} />
-            <Route path="/" component={App} />
-          </Switch>
-        </React.Fragment>
-      </BrowserRouter>
-    </CookiesProvider>
+    <Provider store={store}>
+      <CookiesProvider>
+        <BrowserRouter>
+          <React.Fragment>
+            <Navbar />
+            <Switch>
+              <Route exact path="/user/:id" component={User} />
+              <Route exact path="/subject/:id" component={Subject} />
+              <Route exact path="/users" component={Users} />
+              <Route exact path="/subjects" component={Subjects} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/" component={App} />
+              <Route component={NotFound} />
+            </Switch>
+          </React.Fragment>
+        </BrowserRouter>
+      </CookiesProvider>
+    </Provider>
   </ApolloProvider>,
   document.getElementById('root')
 )

@@ -13,10 +13,13 @@
     "graphql-tag": "^2.8.0",
     "react": "^16.3.0",
     "react-apollo": "^2.1.1",
-    "react-cookie": "^2.1.4",
+    "react-cookies": "^0.1.0",
     "react-dom": "^16.3.0",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1",
+    "react-scripts": "^1.1.4",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
     "subscriptions-transport-ws": "^0.9.7"
   },
   "scripts": {
@@ -26,11 +29,15 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "apollo-mocknetworkinterface": "^2.0.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "react-test-renderer": "^16.3.1"
   }
 }

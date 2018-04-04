@@ -1,6 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { graphql, Mutation } from 'react-apollo'
+import { graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 
 import CreateUser from './CreateUser'

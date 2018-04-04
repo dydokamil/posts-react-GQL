@@ -1,7 +1,8 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
-import { withCookies, Cookies } from 'react-cookie'
+import { connect } from 'react-redux'
+import cookie from 'react-cookies'
 
 class Login extends React.Component {
   state = { username: '', password: '' }
@@ -17,10 +18,11 @@ class Login extends React.Component {
         password
       }
     }).then(res => {
-      // TODO set your cookie here
-      const { cookies } = this.props
-      const { token } = res.data.login
-      cookies.set('token', token, { path: '/' })
+      const { token, username } = res.data.login
+      cookie.save('token', token, { path: '/' })
+      cookie.save('username', username, { path: '/' })
+
+      this.props.login(username)
     })
   }
 
@@ -28,7 +30,7 @@ class Login extends React.Component {
     return (
       <Mutation mutation={LOGIN_QUERY}>
         {(login, { data, error, loading }) => {
-          console.log(data)
+          // console.log(data)
           if (loading) return <div>Loading...</div>
           return (
             <div>
@@ -66,8 +68,17 @@ const LOGIN_QUERY = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       token
+      username
     }
   }
 `
 
-export default withCookies(Login)
+const mapDispatchToProps = dispatch => ({
+  login: username =>
+    dispatch({
+      type: 'LOGIN',
+      payload: { username }
+    })
+})
+
+export default connect(undefined, mapDispatchToProps)(Login)

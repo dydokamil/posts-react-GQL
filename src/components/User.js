@@ -1,6 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { graphql, Query } from 'react-apollo'
+import { Query } from 'react-apollo'
 
 export class User extends React.Component {
   render () {

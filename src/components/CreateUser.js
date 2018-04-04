@@ -1,10 +1,10 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { graphql, Mutation } from 'react-apollo'
+import { Mutation, graphql } from 'react-apollo'
 
 import { GET_USERS_QUERY } from './Users'
 
-class CreateUser extends React.Component {
+export class CreateUser extends React.Component {
   state = { username: '', email: '', password: '' }
 
   onSubmit = (event, createUser) => {
@@ -34,6 +34,7 @@ class CreateUser extends React.Component {
               <h1>Create User</h1>
               <form onSubmit={event => this.onSubmit(event, createUser)}>
                 <input
+                  id="user-input"
                   placeholder="Username"
                   onChange={evt =>
                     this.setState({
@@ -42,6 +43,7 @@ class CreateUser extends React.Component {
                   }
                 />
                 <input
+                  id="email-input"
                   placeholder="Email"
                   onChange={evt =>
                     this.setState({
@@ -50,6 +52,7 @@ class CreateUser extends React.Component {
                   }
                 />
                 <input
+                  id="password-input"
                   placeholder="Password"
                   type="password"
                   onChange={evt =>
