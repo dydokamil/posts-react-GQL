@@ -56,6 +56,7 @@ export class Subject extends React.Component {
                         {data.subject.responses &&
                           data.subject.responses.map(response => (
                             <Post
+                              key={response._id}
                               response={response}
                               subjectId={this.props.match.params.id}
                             />
@@ -73,7 +74,7 @@ export class Subject extends React.Component {
                             this.handleDelete(event, deleteSubject)
                           }
                         >
-                          Delete
+                          Delete Subject
                         </button>
                       </div>
                     )}
