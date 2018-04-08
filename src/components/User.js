@@ -3,6 +3,8 @@ import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { Link } from 'react-router-dom'
 
+import { timestampToDateTime } from './Subject'
+
 export class User extends React.Component {
   render () {
     return (
@@ -18,7 +20,12 @@ export class User extends React.Component {
             <div>
               <h1>User {data.user.username}</h1>
               <div>Email: {data.user.email}</div>
-              <div>Created: {data.user.createdAt}</div>
+              <div>Created: {timestampToDateTime(data.user.createdAt)}</div>
+              {data.user.lastLogin && (
+                <div>
+                  Last login: {timestampToDateTime(data.user.lastLogin)}
+                </div>
+              )}
               {data.user.posts &&
                 data.user.posts.length > 0 && (
                 <div>
@@ -58,6 +65,7 @@ export const FETCH_USER_QUERY = gql`
       username
       email
       createdAt
+      lastLogin
       posts {
         message
         _id

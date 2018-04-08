@@ -4,10 +4,17 @@ import { Query, Mutation } from 'react-apollo'
 import CreatePost from './CreatePost'
 import { connect } from 'react-redux'
 import cookie from 'react-cookies'
+import moment from 'moment'
 
 import { GET_SUBJECTS_QUERY } from './Subjects'
 import Post from './Post'
 import EditSubject from './EditSubject'
+
+export const timestampToDateTime = timestamp =>
+  moment
+    .unix(timestamp)
+    .utc()
+    .format('Y-MM-DD, HH:mm:ss')
 
 export class Subject extends React.Component {
   state = { editingSubject: false }
@@ -39,7 +46,6 @@ export class Subject extends React.Component {
               {({ loading, error, data }) => {
                 if (loading) return <div>Loading...</div>
                 if (error) return <div>{error.message}</div>
-                console.log(data)
 
                 return (
                   <div>
@@ -53,8 +59,18 @@ export class Subject extends React.Component {
                           <small>{data.subject.author.username}</small>
                         </div>
                         <div>
-                          <small>{data.subject.createdAt}</small>
+                          <small>
+                            {timestampToDateTime(data.subject.createdAt)}
+                          </small>
                         </div>
+                        {data.subject.editedAt && (
+                          <div>
+                            <small>
+                              Edited:{' '}
+                              {timestampToDateTime(data.subject.editedAt)}
+                            </small>
+                          </div>
+                        )}
                         {data.subject.author.username ===
                           this.props.username && (
                           <div>
@@ -122,6 +138,7 @@ export const FETCH_SUBJECT_QUERY = gql`
       title
       message
       createdAt
+      editedAt
       author {
         _id
         username
