@@ -7,8 +7,11 @@ import cookie from 'react-cookies'
 
 import { GET_SUBJECTS_QUERY } from './Subjects'
 import Post from './Post'
+import EditSubject from './EditSubject'
 
 export class Subject extends React.Component {
+  state = { editingSubject: false }
+
   handleDelete = (event, deleteSubject) => {
     event.preventDefault()
 
@@ -52,6 +55,20 @@ export class Subject extends React.Component {
                         <div>
                           <small>{data.subject.createdAt}</small>
                         </div>
+                        {data.subject.author.username ===
+                          this.props.username && (
+                          <div>
+                            <button
+                              onClick={() =>
+                                this.setState({
+                                  editingSubject: true
+                                })
+                              }
+                            >
+                              Edit
+                            </button>
+                          </div>
+                        )}
                         <hr />
                         {data.subject.responses &&
                           data.subject.responses.map(response => (
@@ -77,6 +94,15 @@ export class Subject extends React.Component {
                           Delete Subject
                         </button>
                       </div>
+                    )}
+                    {this.state.editingSubject && (
+                      <EditSubject
+                        subjectId={this.props.match.params.id}
+                        message={data.subject.message}
+                        closeEditSubject={() =>
+                          this.setState({ editingSubject: false })
+                        }
+                      />
                     )}
                   </div>
                 )

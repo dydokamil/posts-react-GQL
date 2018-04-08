@@ -38,13 +38,17 @@ export class CreatePost extends React.Component {
         {(createPost, { loading, error, data }) => {
           return (
             <form onSubmit={event => this.onSubmit(event, createPost)}>
-              <textarea
-                placeholder="Message"
-                onChange={event =>
-                  this.setState({ message: event.target.value })
-                }
-              />
-              <button type="submit">Respond</button>
+              <div>
+                <textarea
+                  placeholder="Message"
+                  onChange={event =>
+                    this.setState({ message: event.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <button type="submit">Respond</button>
+              </div>
             </form>
           )
         }}
