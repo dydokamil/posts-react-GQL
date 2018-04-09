@@ -17,7 +17,7 @@ export const timestampToDateTime = timestamp =>
     .format('Y-MM-DD, HH:mm:ss')
 
 export class Subject extends React.Component {
-  state = { editingSubject: false }
+  state = { editingSubject: false, editingPost: false }
 
   handleDelete = (event, deleteSubject) => {
     event.preventDefault()
