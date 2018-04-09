@@ -19,6 +19,8 @@ class EditSubject extends React.Component {
         message: this.state.message
       }
     })
+
+    this.props.closeEditSubject()
   }
 
   render () {
@@ -35,6 +37,7 @@ class EditSubject extends React.Component {
         {(updateSubject, { loading, error, data }) => (
           <div className="edit-subject">
             <h1>Edit Subject</h1>
+            <h2>{this.props.subjectTitle}</h2>
             <form onSubmit={event => this.submitEdit(event, updateSubject)}>
               <div>
                 <textarea
@@ -50,6 +53,7 @@ class EditSubject extends React.Component {
             <div>
               <button onClick={this.props.closeEditSubject}>Close</button>
             </div>
+            <hr />
           </div>
         )}
       </Mutation>

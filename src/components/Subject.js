@@ -51,51 +51,63 @@ export class Subject extends React.Component {
                   <div>
                     <h1>Subject</h1>
                     <hr />
-                    {data.subject && (
-                      <div>
-                        <h2>{data.subject.title}</h2>
-                        <div>{data.subject.message}</div>
+                    {data.subject &&
+                      (!this.state.editingSubject ? (
                         <div>
-                          <small>{data.subject.author.username}</small>
-                        </div>
-                        <div>
-                          <small>
-                            {timestampToDateTime(data.subject.createdAt)}
-                          </small>
-                        </div>
-                        {data.subject.editedAt && (
+                          <h2>{data.subject.title}</h2>
+                          <div>{data.subject.message}</div>
+                          <div>
+                            <small>{data.subject.author.username}</small>
+                          </div>
                           <div>
                             <small>
-                              Edited:{' '}
-                              {timestampToDateTime(data.subject.editedAt)}
+                              {timestampToDateTime(data.subject.createdAt)}
                             </small>
                           </div>
-                        )}
-                        {data.subject.author.username ===
-                          this.props.username && (
-                          <div>
-                            <button
-                              onClick={() =>
-                                this.setState({
-                                  editingSubject: true
-                                })
-                              }
-                            >
-                              Edit
-                            </button>
-                          </div>
-                        )}
-                        <hr />
-                        {data.subject.responses &&
-                          data.subject.responses.map(response => (
-                            <Post
-                              key={response._id}
-                              response={response}
-                              subjectId={this.props.match.params.id}
-                            />
-                          ))}
-                      </div>
-                    )}
+                          {data.subject.editedAt && (
+                            <div>
+                              <small>
+                                Edited:{' '}
+                                {timestampToDateTime(data.subject.editedAt)}
+                              </small>
+                            </div>
+                          )}
+                          {data.subject.author.username ===
+                            this.props.username && (
+                            <div>
+                              <button
+                                onClick={() =>
+                                  this.setState({
+                                    editingSubject: true
+                                  })
+                                }
+                              >
+                                Edit
+                              </button>
+                            </div>
+                          )}
+                          <hr />
+                        </div>
+                      ) : (
+                        <EditSubject
+                          subjectTitle={data.subject.title}
+                          subjectId={this.props.match.params.id}
+                          message={data.subject.message}
+                          closeEditSubject={() =>
+                            this.setState({ editingSubject: false })
+                          }
+                        />
+                      ))}
+
+                    {data.subject.responses &&
+                      data.subject.responses.map(response => (
+                        <Post
+                          key={response._id}
+                          response={response}
+                          subjectId={this.props.match.params.id}
+                        />
+                      ))}
+
                     {this.props.username && (
                       <CreatePost subjectId={this.props.match.params.id} />
                     )}
@@ -110,15 +122,6 @@ export class Subject extends React.Component {
                           Delete Subject
                         </button>
                       </div>
-                    )}
-                    {this.state.editingSubject && (
-                      <EditSubject
-                        subjectId={this.props.match.params.id}
-                        message={data.subject.message}
-                        closeEditSubject={() =>
-                          this.setState({ editingSubject: false })
-                        }
-                      />
                     )}
                   </div>
                 )
