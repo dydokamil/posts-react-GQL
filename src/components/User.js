@@ -2,8 +2,10 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { Link } from 'react-router-dom'
+import cookie from 'react-cookies'
 
 import { timestampToDateTime } from './Subject'
+import ChangePassword from './ChangePassword'
 
 export class User extends React.Component {
   render () {
@@ -49,6 +51,9 @@ export class User extends React.Component {
                     ))}
                   </ul>
                 </div>
+              )}
+              {cookie.load('username') === data.user.username && (
+                <ChangePassword />
               )}
             </div>
           )
