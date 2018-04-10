@@ -27,7 +27,7 @@ export class CreateUser extends React.Component {
     return (
       <Mutation
         mutation={CREATE_NEW_SUBJECT_QUERY}
-        refetchQueries={[{ query: GET_SUBJECTS_QUERY }]}
+        // refetchQueries={[{ query: GET_SUBJECTS_QUERY }]}
       >
         {(createSubject, { data, error, loading }) => {
           if (loading) return <div>Loading...</div>

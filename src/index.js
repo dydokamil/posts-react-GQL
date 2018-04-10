@@ -8,6 +8,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import logger from 'redux-logger'
+import { WebSocketLink } from 'apollo-link-ws'
+import { getMainDefinition } from 'apollo-utilities'
+import { split, ApolloLink } from 'apollo-link'
 
 import './index.css'
 import Navbar from './components/Navbar'
@@ -19,31 +22,40 @@ import Login from './components/Login'
 import App from './components/App'
 import NotFound from './components/NotFound'
 import registerServiceWorker from './registerServiceWorker'
-
 import rootReducer from './reducers'
 
+const httpLink = new HttpLink({
+  uri: 'http://localhost:3000/graphql'
+})
+
+const wsLink = new WebSocketLink({
+  uri: `ws://localhost:3000`,
+  options: { reconnect: true }
+})
+
+const link = split(
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query)
+    return kind === 'OperationDefinition' && operation === 'subscription'
+  },
+  wsLink,
+  httpLink
+)
+
 const client = new ApolloClient({
-  link: new HttpLink({
-    uri: 'http://localhost:3000/graphql',
-    credentials: 'same-origin'
-  }),
+  // link: new HttpLink({
+  //   uri: 'http://localhost:3000/graphql',
+  //   credentials: 'same-origin'
+  // }),
+  // link: httpLink,
+  link,
   cache: new InMemoryCache()
-  // cache: new InMemoryCache({
-  //   dataIdFromObject: object => {
-  //     switch (object.__typename) {
-  //       case 'User':
-  //         console.log('LOOK HERE', object)
-  //         return object._id
-  //       default:
-  //         return defaultDataIdFromObject(object)
-  //     }
-  //   }
-  // })
 })
 
 const store = createStore(rootReducer, applyMiddleware(logger))
 
 ReactDOM.render(
+  // <ApolloProvider client={client}>
   <ApolloProvider client={client}>
     <Provider store={store}>
       <BrowserRouter>
