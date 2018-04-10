@@ -81,12 +81,12 @@ export class Post extends React.Component {
     ) : (
       <Mutation
         mutation={DELETE_POST_QUERY}
-        refetchQueries={[
-          {
-            query: FETCH_SUBJECT_QUERY,
-            variables: { _id: this.props.subjectId }
-          }
-        ]}
+        // refetchQueries={[
+        //   {
+        //     query: FETCH_SUBJECT_QUERY,
+        //     variables: { _id: this.props.subjectId }
+        //   }
+        // ]}
       >
         {(deletePost, { loading, error, data }) => {
           return (

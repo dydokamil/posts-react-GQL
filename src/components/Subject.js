@@ -21,6 +21,7 @@ class Subject extends React.Component {
 
   componentDidMount () {
     this.props.subscribeToNewPosts()
+    this.props.subscribeToPostDeletion()
   }
 
   handleDelete = (event, deleteSubject) => {
@@ -40,7 +41,6 @@ class Subject extends React.Component {
     return (
       <div>
         <h1>Subject</h1>
-        <hr />
         {data.subject &&
           (!this.state.editingSubject ? (
             <div>
@@ -91,12 +91,26 @@ class Subject extends React.Component {
               subjectId={this.props.data.subject._id}
             />
           ))}
+        {this.props.username && (
+          <CreatePost subjectId={this.props.match.params.id} />
+        )}
+        {this.props.data.subject.author.username ===
+          cookie.load('username') && (
+          <div>
+            <button
+              onClick={event =>
+                this.handleDelete(event, this.props.deleteSubject)
+              }
+            >
+              Delete Subject
+            </button>
+          </div>
+        )}
       </div>
     )
   }
 }
 
-// export class Subject extends React.Component {
 const SubjectWithData = props => (
   <Mutation
     mutation={DELETE_SUBJECT_QUERY}
@@ -114,11 +128,34 @@ const SubjectWithData = props => (
             return (
               <React.Fragment>
                 <Subject
+                  {...props}
                   {...result}
+                  deleteSubject={deleteSubject}
+                  subscribeToPostDeletion={() => {
+                    subscribeToMore({
+                      document: SUBSCRIPTION_DELETE_POST,
+                      variables: { subjectId: result.data.subject._id },
+                      updateQuery: (prev, { subscriptionData }) => {
+                        if (!subscriptionData.data.postDeleted) return prev
+
+                        const { postDeleted } = subscriptionData.data
+                        const { responses } = prev.subject
+
+                        return Object.assign({}, prev, {
+                          subject: {
+                            ...prev.subject,
+                            responses: responses.filter(
+                              response => response._id !== postDeleted._id
+                            )
+                          }
+                        })
+                      }
+                    })
+                  }}
                   subscribeToNewPosts={() => {
                     subscribeToMore({
                       document: SUBSCRIPTION_NEW_RESPONSE,
-                      variables: { _id: result.data.subject._id },
+                      variables: { subjectId: result.data.subject._id },
                       updateQuery: (prev, { subscriptionData }) => {
                         if (!subscriptionData.data.postAdded) return prev
 
@@ -134,19 +171,6 @@ const SubjectWithData = props => (
                     })
                   }}
                 />
-                {props.username && (
-                  <CreatePost subjectId={props.match.params.id} />
-                )}
-                {result.data.subject.author.username ===
-                  cookie.load('username') && (
-                  <div>
-                    <button
-                      onClick={event => this.handleDelete(event, deleteSubject)}
-                    >
-                      Delete Subject
-                    </button>
-                  </div>
-                )}
               </React.Fragment>
             )
           }}
@@ -183,8 +207,8 @@ export const FETCH_SUBJECT_QUERY = gql`
 `
 
 export const SUBSCRIPTION_NEW_RESPONSE = gql`
-  subscription onPostAdded($_id: String!) {
-    postAdded(_id: $_id) {
+  subscription onPostAdded($subjectId: String!) {
+    postAdded(subjectId: $subjectId) {
       _id
       message
       createdAt
@@ -193,6 +217,14 @@ export const SUBSCRIPTION_NEW_RESPONSE = gql`
         _id
         username
       }
+    }
+  }
+`
+
+export const SUBSCRIPTION_DELETE_POST = gql`
+  subscription onPostDeleted($subjectId: String!) {
+    postDeleted(subjectId: $subjectId) {
+      _id
     }
   }
 `
