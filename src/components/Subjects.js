@@ -12,7 +12,6 @@ class Subjects extends React.Component {
   }
 
   render () {
-    console.log(this.props)
     return (
       <div>
         <h1>Subjects</h1>
@@ -30,7 +29,6 @@ class Subjects extends React.Component {
   }
 }
 
-// export class Subjects extends React.Component {
 const SubjectsWithData = props => (
   <Query query={GET_SUBJECTS_QUERY}>
     {({ subscribeToMore, ...result }) => (
@@ -41,15 +39,11 @@ const SubjectsWithData = props => (
             subscribeToMore({
               document: SUBSCRIBE_CREATE_SUBJECT,
               updateQuery: (prev, { subscriptionData }) => {
-                console.log(subscriptionData)
                 if (!subscriptionData.data.subjectAdded) {
                   return prev
                 }
 
                 let newSubject = subscriptionData.data.subjectAdded
-
-                console.log(prev)
-                console.log(newSubject)
 
                 return Object.assign({}, prev, {
                   subjects: [...prev.subjects, newSubject]
