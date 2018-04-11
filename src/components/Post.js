@@ -9,7 +9,10 @@ export class Post extends React.Component {
   state = {
     editing: false,
     message: this.props.response.message,
-    postId: this.props.response._id
+    createdAt: this.props.response.createdAt,
+    author: this.props.response.author,
+    postId: this.props.response._id,
+    _id: this.props.response._id
   }
 
   handleDelete = (event, deletePost) => {
@@ -73,34 +76,31 @@ export class Post extends React.Component {
     ) : (
       <Mutation mutation={DELETE_POST_QUERY}>
         {(deletePost, { loading, error, data }) => {
+          if (loading) return <div>Loading...</div>
+          if (error) return <div>{error.message}</div>
+
           return (
-            <div key={response._id}>
+            <div key={this.state._id}>
               <div>{response.message}</div>
               <div>
-                <small>{response.author.username}</small>
+                <small>{this.state.author.username}</small>
               </div>
               <div>
-                <small>{timestampToDateTime(response.createdAt)}</small>
+                <small>{timestampToDateTime(this.state.createdAt)}</small>
               </div>
               {response.editedAt && (
                 <small>Edited: {timestampToDateTime(response.editedAt)}</small>
               )}
-              {response.author.username === cookie.load('username') && (
+              {this.state.author.username === cookie.load('username') && (
                 <div>
                   <button
                     onClick={event =>
-                      this.handleDelete(event, deletePost, response._id)
+                      this.handleDelete(event, deletePost, this.state._id)
                     }
                   >
                     Delete
                   </button>
-                  <button
-                    onClick={() =>
-                      this.setState({
-                        editing: true
-                      })
-                    }
-                  >
+                  <button onClick={() => this.setState({ editing: true })}>
                     Edit
                   </button>
                 </div>
@@ -127,6 +127,7 @@ const EDIT_POST_QUERY = gql`
   mutation editPost($postId: String!, $token: String!, $message: String!) {
     editPost(postId: $postId, token: $token, message: $message) {
       _id
+      editedAt
     }
   }
 `
