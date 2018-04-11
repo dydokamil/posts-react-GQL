@@ -39,15 +39,7 @@ export class Post extends React.Component {
   render () {
     const { response } = this.props
     return this.state.editing ? (
-      <Mutation
-        mutation={EDIT_POST_QUERY}
-        // refetchQueries={[
-        //   {
-        //     query: FETCH_SUBJECT_QUERY,
-        //     variables: { _id: this.props.subjectId }
-        //   }
-        // ]}
-      >
+      <Mutation mutation={EDIT_POST_QUERY}>
         {(editPost, _) => {
           return (
             <div>
@@ -79,15 +71,7 @@ export class Post extends React.Component {
         }}
       </Mutation>
     ) : (
-      <Mutation
-        mutation={DELETE_POST_QUERY}
-        // refetchQueries={[
-        //   {
-        //     query: FETCH_SUBJECT_QUERY,
-        //     variables: { _id: this.props.subjectId }
-        //   }
-        // ]}
-      >
+      <Mutation mutation={DELETE_POST_QUERY}>
         {(deletePost, { loading, error, data }) => {
           return (
             <div key={response._id}>

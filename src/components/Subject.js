@@ -24,6 +24,7 @@ class Subject extends React.Component {
     this.props.subscribeToPostDeletion()
     this.props.subscribeToPostEdit()
     this.props.subscribeToSubjectEdit()
+    this.props.subscribeToDeleteSubject()
   }
 
   handleDelete = (event, deleteSubject) => {
@@ -35,7 +36,7 @@ class Subject extends React.Component {
         token: cookie.load('token')
       }
     })
-    this.props.history.push('/subjects')
+    // this.props.history.push('/subjects')
   }
 
   render () {
@@ -114,10 +115,7 @@ class Subject extends React.Component {
 }
 
 const SubjectWithData = props => (
-  <Mutation
-    mutation={DELETE_SUBJECT_QUERY}
-    refetchQueries={[{ query: GET_SUBJECTS_QUERY }]}
-  >
+  <Mutation mutation={DELETE_SUBJECT_QUERY}>
     {(deleteSubject, _) => {
       return (
         <Query
@@ -127,6 +125,10 @@ const SubjectWithData = props => (
           {({ subscribeToMore, ...result }) => {
             if (result.loading) return <div>Loading...</div>
             if (result.error) return <div>{result.data.error.message}</div>
+            if (!result.data.subject) {
+              return <h2>Subject not found. It might have been deleted.</h2>
+            }
+
             return (
               <React.Fragment>
                 <Subject
@@ -207,7 +209,6 @@ const SubjectWithData = props => (
                         if (!subscriptionData.data.subjectEdited) return prev
 
                         const { subjectEdited } = subscriptionData.data
-                        console.log(subjectEdited)
 
                         return Object.assign({}, prev, {
                           subject: {
@@ -215,6 +216,22 @@ const SubjectWithData = props => (
                             ...subjectEdited
                           }
                         })
+                      }
+                    })
+                  }}
+                  subscribeToDeleteSubject={() => {
+                    subscribeToMore({
+                      document: SUBSCRIPTION_DELETE_SUBJECT,
+                      variables: { subjectId: result.data.subject._id },
+                      updateQuery: (prev, { subscriptionData }) => {
+                        console.log(subscriptionData)
+                        if (!subscriptionData.data.subjectDeleted) return prev
+
+                        const { subjectDeleted } = subscriptionData.data
+
+                        if (subjectDeleted._id === prev.subject._id) {
+                          return Object.assign({}, prev, { subject: null })
+                        }
                       }
                     })
                   }}
@@ -298,6 +315,14 @@ export const SUBSCRIPTION_EDIT_SUBJECT = gql`
       _id
       message
       editedAt
+    }
+  }
+`
+
+export const SUBSCRIPTION_DELETE_SUBJECT = gql`
+  subscription onSubjectDelete($subjectId: String!) {
+    subjectDeleted(subjectId: $subjectId) {
+      _id
     }
   }
 `
