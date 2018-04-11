@@ -1,13 +1,13 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { Mutation, graphql } from 'react-apollo'
+import { Mutation } from 'react-apollo'
 import cookie from 'react-cookies'
 import { connect } from 'react-redux'
 
-import { GET_SUBJECTS_QUERY } from './Subjects'
+import './CreateSubject.css'
 
 export class CreateUser extends React.Component {
-  state = { title: '', message: '', authenticated: false }
+  state = { title: '', message: '' }
 
   onSubmit = (event, createSubject) => {
     event.preventDefault()
@@ -25,14 +25,11 @@ export class CreateUser extends React.Component {
 
   render () {
     return (
-      <Mutation
-        mutation={CREATE_NEW_SUBJECT_QUERY}
-        // refetchQueries={[{ query: GET_SUBJECTS_QUERY }]}
-      >
+      <Mutation mutation={CREATE_NEW_SUBJECT_QUERY}>
         {(createSubject, { data, error, loading }) => {
           if (loading) return <div>Loading...</div>
           return (
-            <div>
+            <div className="create-subject">
               <h1>Create Subject</h1>
               <form onSubmit={event => this.onSubmit(event, createSubject)}>
                 <input
@@ -53,7 +50,15 @@ export class CreateUser extends React.Component {
                     })
                   }
                 />
-                <button type="submit">Create</button>
+                <button
+                  disabled={
+                    this.state.message.length === 0 ||
+                    this.state.title.length === 0
+                  }
+                  type="submit"
+                >
+                  Create
+                </button>
               </form>
               {error && <div>{error.message}</div>}
             </div>

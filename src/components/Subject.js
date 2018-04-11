@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import cookie from 'react-cookies'
 import moment from 'moment'
 
-import { GET_SUBJECTS_QUERY } from './Subjects'
+import './Subject.css'
 import Post from './Post'
 import EditSubject from './EditSubject'
 
@@ -36,13 +36,13 @@ class Subject extends React.Component {
         token: cookie.load('token')
       }
     })
-    // this.props.history.push('/subjects')
+    this.props.history.push('/subjects')
   }
 
   render () {
     const { data } = this.props
     return (
-      <div>
+      <div className="subject">
         <h1>Subject</h1>
         {data.subject &&
           (!this.state.editingSubject ? (
@@ -320,7 +320,7 @@ export const SUBSCRIPTION_EDIT_SUBJECT = gql`
 `
 
 export const SUBSCRIPTION_DELETE_SUBJECT = gql`
-  subscription onSubjectDelete($subjectId: String!) {
+  subscription onSubjectDelete($subjectId: String) {
     subjectDeleted(subjectId: $subjectId) {
       _id
     }

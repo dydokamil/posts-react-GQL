@@ -1,3 +1,8 @@
 .navbar > *:not(:last-child) {
   margin-right: 1rem;
 }
+
+.navbar {
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.02);
+}

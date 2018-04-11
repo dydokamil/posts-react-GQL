@@ -1,21 +1,24 @@
 import React from 'react'
-import { Query, Subscription } from 'react-apollo'
+import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import { SUBSCRIPTION_DELETE_SUBJECT } from './Subject'
 import CreateSubject from './CreateSubject'
+import './Subjects.css'
 
 class Subjects extends React.Component {
   componentDidMount () {
     this.props.subscribeToNewSubjects()
+    this.props.subscribeToDeleteSubject()
   }
 
   render () {
     return (
-      <div>
+      <div className="subjects">
         <h1>Subjects</h1>
-        {this.props.data.subjects && (
+        {this.props.data.subjects && this.props.data.subjects.length ? (
           <ul>
             {this.props.data.subjects.map(subject => (
               <li key={subject._id}>
@@ -23,6 +26,8 @@ class Subjects extends React.Component {
               </li>
             ))}
           </ul>
+        ) : (
+          <h2>No subjects.</h2>
         )}
       </div>
     )
@@ -51,6 +56,23 @@ const SubjectsWithData = props => (
               }
             })
           }
+          subscribeToDeleteSubject={() => {
+            subscribeToMore({
+              document: SUBSCRIPTION_DELETE_SUBJECT,
+              updateQuery: (prev, { subscriptionData }) => {
+                // console.log(subscriptionData)
+                if (!subscriptionData.data.subjectDeleted) return prev
+
+                const { subjectDeleted } = subscriptionData.data
+
+                return Object.assign({}, prev, {
+                  subjects: prev.subjects.filter(
+                    subject => subject._id !== subjectDeleted._id
+                  )
+                })
+              }
+            })
+          }}
         />
         {props.username && <CreateSubject />}
       </React.Fragment>

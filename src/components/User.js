@@ -4,6 +4,7 @@ import { Query } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import cookie from 'react-cookies'
 
+import './User.css'
 import { timestampToDateTime } from './Subject'
 import ChangePassword from './ChangePassword'
 
@@ -17,9 +18,8 @@ export class User extends React.Component {
         {({ loading, error, data }) => {
           if (loading) return <div>Loading user...</div>
           if (error) return <div>An error has occured.</div>
-          console.log(this.props)
           return (
-            <div>
+            <div className="user-page">
               <h1>User {data.user.username}</h1>
               <div>Email: {data.user.email}</div>
               <div>Created: {timestampToDateTime(data.user.createdAt)}</div>
@@ -33,7 +33,9 @@ export class User extends React.Component {
                 <div>
                   <h2>Posts</h2>
                   <ul>
-                    {data.user.posts.map(post => <li>{post.message}</li>)}
+                    {data.user.posts.map(post => (
+                      <li key={post._id}>{post.message}</li>
+                    ))}
                   </ul>
                 </div>
               )}
@@ -43,7 +45,7 @@ export class User extends React.Component {
                   <h2>Subjects</h2>
                   <ul>
                     {data.user.subjects.map(subject => (
-                      <li>
+                      <li key={subject._id}>
                         <Link to={`/subject/${subject._id}`}>
                           {subject.title}
                         </Link>

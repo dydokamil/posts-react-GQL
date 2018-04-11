@@ -3,8 +3,6 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import cookie from 'react-cookies'
 
-import { FETCH_SUBJECT_QUERY } from './Subject'
-
 export class CreatePost extends React.Component {
   state = { message: '' }
 
@@ -26,15 +24,7 @@ export class CreatePost extends React.Component {
 
   render () {
     return (
-      <Mutation
-        mutation={CREATE_POST_QUERY}
-        refetchQueries={[
-          {
-            query: FETCH_SUBJECT_QUERY,
-            variables: { _id: this.props.subjectId }
-          }
-        ]}
-      >
+      <Mutation mutation={CREATE_POST_QUERY}>
         {(createPost, { loading, error, data }) => {
           return (
             <form onSubmit={event => this.onSubmit(event, createPost)}>

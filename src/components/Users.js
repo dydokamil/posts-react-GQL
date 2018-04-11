@@ -3,12 +3,13 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 
+import './Users.css'
 import CreateUser from './CreateUser'
 
 class Users extends React.Component {
   render () {
     return (
-      <div>
+      <div className="users">
         <h1>Users</h1>
         <div>{this.props.data.loading && <div>Loading users...</div>}</div>
         <div>{this.props.data.error && <div>{this.props.data.error}</div>}</div>

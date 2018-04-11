@@ -23,15 +23,7 @@ class EditPost extends React.Component {
 
   render () {
     return (
-      <Mutation
-        mutation={EDIT_POST_QUERY}
-        refetchQueries={[
-          {
-            query: FETCH_SUBJECT_QUERY,
-            variables: { _id: this.props.subjectId }
-          }
-        ]}
-      >
+      <Mutation mutation={EDIT_POST_QUERY}>
         {(editPost, { loading, error, data }) => (
           <div className="edit-post">
             <h1>Edit Post</h1>

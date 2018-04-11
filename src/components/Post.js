@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import cookie from 'react-cookies'
 
-import { FETCH_SUBJECT_QUERY, timestampToDateTime } from './Subject'
+import { timestampToDateTime } from './Subject'
 
 export class Post extends React.Component {
   state = {

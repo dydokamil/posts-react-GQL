@@ -21,7 +21,6 @@ class ChangePassword extends React.Component {
     return (
       <Mutation mutation={UPDATE_PASSWORD_QUERY}>
         {(updatePassword, { loading, data, error }) => {
-          console.log(data)
           return (
             <div>
               <h1>Change Password</h1>

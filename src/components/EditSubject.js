@@ -4,7 +4,6 @@ import { Mutation } from 'react-apollo'
 import cookie from 'react-cookies'
 
 import './EditSubject.css'
-import { FETCH_SUBJECT_QUERY } from './Subject'
 
 class EditSubject extends React.Component {
   state = { message: this.props.message }
@@ -25,15 +24,7 @@ class EditSubject extends React.Component {
 
   render () {
     return (
-      <Mutation
-        mutation={EDIT_SUBJECT_QUERY}
-        // refetchQueries={[
-        //   {
-        //     query: FETCH_SUBJECT_QUERY,
-        //     variables: { _id: this.props.subjectId }
-        //   }
-        // ]}
-      >
+      <Mutation mutation={EDIT_SUBJECT_QUERY}>
         {(updateSubject, { loading, error, data }) => (
           <div className="edit-subject">
             <h1>Edit Subject</h1>

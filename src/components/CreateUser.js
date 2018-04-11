@@ -1,6 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { Mutation, graphql } from 'react-apollo'
+import { Mutation } from 'react-apollo'
 
 import { GET_USERS_QUERY } from './Users'
 
