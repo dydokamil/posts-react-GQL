@@ -3,6 +3,8 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import cookie from 'react-cookies'
 
+import './Common.css'
+
 export class CreatePost extends React.Component {
   state = { message: '' }
 
@@ -30,6 +32,7 @@ export class CreatePost extends React.Component {
             <form onSubmit={event => this.onSubmit(event, createPost)}>
               <div>
                 <textarea
+                  className="full-width"
                   placeholder="Message"
                   onChange={event =>
                     this.setState({ message: event.target.value })
@@ -37,7 +40,9 @@ export class CreatePost extends React.Component {
                 />
               </div>
               <div>
-                <button type="submit">Respond</button>
+                <button className="action-button" type="submit">
+                  Respond
+                </button>
               </div>
             </form>
           )

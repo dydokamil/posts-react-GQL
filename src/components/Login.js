@@ -4,6 +4,8 @@ import { Mutation } from 'react-apollo'
 import { connect } from 'react-redux'
 import cookie from 'react-cookies'
 
+import './Login.css'
+
 class Login extends React.Component {
   state = { username: '', password: '' }
 
@@ -36,7 +38,7 @@ class Login extends React.Component {
         {(login, { data, error, loading }) => {
           if (loading) return <div>Loading...</div>
           return (
-            <div>
+            <div className="login-page">
               <h1>Login</h1>
               <form onSubmit={event => this.onSubmit(event, login)}>
                 <input

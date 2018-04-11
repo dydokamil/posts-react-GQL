@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo'
 import cookie from 'react-cookies'
 import { connect } from 'react-redux'
 
+import './Common.css'
 import './CreateSubject.css'
 
 export class CreateUser extends React.Component {

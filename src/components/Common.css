@@ -1,0 +1,51 @@
+.action-button {
+  color: white;
+  background-color: #709699;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.edit-button {
+  color: white;
+  background-color: #2fc0cc;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.delete-button {
+  color: white;
+  background-color: #e28c94;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.submit-button {
+  color: white;
+  background-color: #cc2f8c;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.full-width {
+  width: 100%;
+}
+
+button:hover {
+  text-transform: uppercase;
+}
+
+.inline {
+  display: inline;
+}
+
+/*
+#2FC0CC
+#709699
+#54FFAC
+#E28C94
+#CC2F8C 
+*/

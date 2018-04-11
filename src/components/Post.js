@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import cookie from 'react-cookies'
 
+import './Common.css'
 import { timestampToDateTime } from './Subject'
 
 export class Post extends React.Component {
@@ -45,10 +46,14 @@ export class Post extends React.Component {
       <Mutation mutation={EDIT_POST_QUERY}>
         {(editPost, _) => {
           return (
-            <div>
-              <form onSubmit={event => this.handleEdit(event, editPost)}>
+            <React.Fragment>
+              <form
+                className="inline"
+                onSubmit={event => this.handleEdit(event, editPost)}
+              >
                 <div>
                   <textarea
+                    className="full-width"
                     onChange={event =>
                       this.setState({
                         message: event.target.value
@@ -57,9 +62,12 @@ export class Post extends React.Component {
                     value={this.state.message}
                   />
                 </div>
-                <button type="submit">Submit</button>
+                <button className="edit-button" type="submit">
+                  Submit
+                </button>
               </form>
               <button
+                className="action-button"
                 onClick={() =>
                   this.setState({
                     editing: false
@@ -69,7 +77,7 @@ export class Post extends React.Component {
                 Close
               </button>
               <hr />
-            </div>
+            </React.Fragment>
           )
         }}
       </Mutation>
@@ -94,14 +102,18 @@ export class Post extends React.Component {
               {this.state.author.username === cookie.load('username') && (
                 <div>
                   <button
+                    className="edit-button"
+                    onClick={() => this.setState({ editing: true })}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="delete-button"
                     onClick={event =>
                       this.handleDelete(event, deletePost, this.state._id)
                     }
                   >
                     Delete
-                  </button>
-                  <button onClick={() => this.setState({ editing: true })}>
-                    Edit
                   </button>
                 </div>
               )}

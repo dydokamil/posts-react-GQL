@@ -7,6 +7,7 @@ import cookie from 'react-cookies'
 import moment from 'moment'
 
 import './Subject.css'
+import './Common.css'
 import Post from './Post'
 import EditSubject from './EditSubject'
 
@@ -65,6 +66,7 @@ class Subject extends React.Component {
               {data.subject.author.username === this.props.username && (
                 <div>
                   <button
+                    className="edit-button"
                     onClick={() =>
                       this.setState({
                         editingSubject: true
@@ -94,19 +96,23 @@ class Subject extends React.Component {
               subjectId={this.props.data.subject._id}
             />
           ))}
-        {this.props.username && (
-          <CreatePost subjectId={this.props.match.params.id} />
-        )}
         {this.props.data.subject.author.username ===
           cookie.load('username') && (
           <div>
             <button
+              className="delete-button full-width"
               onClick={event =>
                 this.handleDelete(event, this.props.deleteSubject)
               }
             >
               Delete Subject
             </button>
+          </div>
+        )}
+        {this.props.username && (
+          <div>
+            <h3>Respond</h3>
+            <CreatePost subjectId={this.props.match.params.id} />
           </div>
         )}
       </div>

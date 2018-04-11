@@ -1,8 +1,23 @@
-.navbar > *:not(:last-child) {
+.navbar > div > *:not(:last-child) {
   margin-right: 1rem;
 }
 
 .navbar {
+  display: flex;
+  align-items: center;
+}
+
+.right-container {
+  margin-left: auto;
+}
+
+.navbar {
   padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: #54ffac;
+}
+
+.navbar a,
+span {
+  color: white;
+  text-decoration: none;
 }

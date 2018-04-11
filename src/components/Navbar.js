@@ -4,6 +4,7 @@ import cookie from 'react-cookies'
 import { connect } from 'react-redux'
 
 import './Navbar.css'
+import './Common.css'
 
 class Navbar extends React.Component {
   INITIAL_STATE = { username: '' }
@@ -23,19 +24,25 @@ class Navbar extends React.Component {
   render () {
     return (
       <div className="navbar">
-        <Link to="/">Home</Link>
-        <Link to="/users">Users</Link>
-        <Link to="/subjects">Subjects</Link>
-        {!this.state.username ? (
-          <Link to="/login">Login</Link>
-        ) : (
-          <React.Fragment>
-            <span>Hello, {this.state.username}</span>
-            <button className="link-button" onClick={this.logout}>
-              Logout
-            </button>
-          </React.Fragment>
-        )}
+        <div className="left-container">
+          <Link to="/">Home</Link>
+          <Link to="/users">Users</Link>
+          <Link to="/subjects">Subjects</Link>
+        </div>
+        <div className="right-container">
+          {!this.state.username ? (
+            <Link to="/login">
+              <button className="action-button">Login</button>
+            </Link>
+          ) : (
+            <React.Fragment>
+              <span>Hello, {this.state.username}</span>
+              <button className="action-button" onClick={this.logout}>
+                Logout
+              </button>
+            </React.Fragment>
+          )}
+        </div>
       </div>
     )
   }
