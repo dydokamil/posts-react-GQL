@@ -41,12 +41,12 @@ export class Post extends React.Component {
     return this.state.editing ? (
       <Mutation
         mutation={EDIT_POST_QUERY}
-        refetchQueries={[
-          {
-            query: FETCH_SUBJECT_QUERY,
-            variables: { _id: this.props.subjectId }
-          }
-        ]}
+        // refetchQueries={[
+        //   {
+        //     query: FETCH_SUBJECT_QUERY,
+        //     variables: { _id: this.props.subjectId }
+        //   }
+        // ]}
       >
         {(editPost, _) => {
           return (

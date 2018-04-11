@@ -22,6 +22,7 @@ class Subject extends React.Component {
   componentDidMount () {
     this.props.subscribeToNewPosts()
     this.props.subscribeToPostDeletion()
+    this.props.subscribeToPostEdit()
   }
 
   handleDelete = (event, deleteSubject) => {
@@ -170,6 +171,34 @@ const SubjectWithData = props => (
                       }
                     })
                   }}
+                  subscribeToPostEdit={() => {
+                    subscribeToMore({
+                      document: SUBSCRIPTION_EDIT_POST,
+                      variables: { subjectId: result.data.subject._id },
+                      updateQuery: (prev, { subscriptionData }) => {
+                        console.log(subscriptionData)
+                        if (!subscriptionData.data.postEdited) return prev
+
+                        const { postEdited } = subscriptionData.data
+                        const toEditIndex = prev.subject.responses.findIndex(
+                          response => response._id === postEdited._id
+                        )
+
+                        if (toEditIndex === -1) return prev
+
+                        return Object.assign({}, prev, {
+                          subject: {
+                            ...prev.subject,
+                            responses: [
+                              ...prev.subject.responses.slice(0, toEditIndex),
+                              postEdited,
+                              ...prev.subject.responses.slice(toEditIndex + 1)
+                            ]
+                          }
+                        })
+                      }
+                    })
+                  }}
                 />
               </React.Fragment>
             )
@@ -226,6 +255,27 @@ export const SUBSCRIPTION_DELETE_POST = gql`
     postDeleted(subjectId: $subjectId) {
       _id
     }
+  }
+`
+
+export const SUBSCRIPTION_EDIT_POST = gql`
+  subscription onPostEdit($subjectId: String!) {
+    postEdited(subjectId: $subjectId) {
+      _id
+      message
+      createdAt
+      editedAt
+      author {
+        _id
+        username
+      }
+    }
+  }
+`
+
+export const SUBSCRIPTION_EDIT_SUBJECT = gql`
+  subscription onSubjectEdit($subjectId: String!) {
+    subjectEdited(subjectId: $subjectId)
   }
 `
 
