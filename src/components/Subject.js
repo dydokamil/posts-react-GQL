@@ -23,6 +23,7 @@ class Subject extends React.Component {
     this.props.subscribeToNewPosts()
     this.props.subscribeToPostDeletion()
     this.props.subscribeToPostEdit()
+    this.props.subscribeToSubjectEdit()
   }
 
   handleDelete = (event, deleteSubject) => {
@@ -176,7 +177,6 @@ const SubjectWithData = props => (
                       document: SUBSCRIPTION_EDIT_POST,
                       variables: { subjectId: result.data.subject._id },
                       updateQuery: (prev, { subscriptionData }) => {
-                        console.log(subscriptionData)
                         if (!subscriptionData.data.postEdited) return prev
 
                         const { postEdited } = subscriptionData.data
@@ -194,6 +194,25 @@ const SubjectWithData = props => (
                               postEdited,
                               ...prev.subject.responses.slice(toEditIndex + 1)
                             ]
+                          }
+                        })
+                      }
+                    })
+                  }}
+                  subscribeToSubjectEdit={() => {
+                    subscribeToMore({
+                      document: SUBSCRIPTION_EDIT_SUBJECT,
+                      variables: { subjectId: result.data.subject._id },
+                      updateQuery: (prev, { subscriptionData }) => {
+                        if (!subscriptionData.data.subjectEdited) return prev
+
+                        const { subjectEdited } = subscriptionData.data
+                        console.log(subjectEdited)
+
+                        return Object.assign({}, prev, {
+                          subject: {
+                            ...prev.subject,
+                            ...subjectEdited
                           }
                         })
                       }
@@ -275,7 +294,11 @@ export const SUBSCRIPTION_EDIT_POST = gql`
 
 export const SUBSCRIPTION_EDIT_SUBJECT = gql`
   subscription onSubjectEdit($subjectId: String!) {
-    subjectEdited(subjectId: $subjectId)
+    subjectEdited(subjectId: $subjectId) {
+      _id
+      message
+      editedAt
+    }
   }
 `
 

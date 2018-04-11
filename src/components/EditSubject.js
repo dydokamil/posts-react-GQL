@@ -27,12 +27,12 @@ class EditSubject extends React.Component {
     return (
       <Mutation
         mutation={EDIT_SUBJECT_QUERY}
-        refetchQueries={[
-          {
-            query: FETCH_SUBJECT_QUERY,
-            variables: { _id: this.props.subjectId }
-          }
-        ]}
+        // refetchQueries={[
+        //   {
+        //     query: FETCH_SUBJECT_QUERY,
+        //     variables: { _id: this.props.subjectId }
+        //   }
+        // ]}
       >
         {(updateSubject, { loading, error, data }) => (
           <div className="edit-subject">
