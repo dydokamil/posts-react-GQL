@@ -40,25 +40,36 @@ class Login extends React.Component {
           return (
             <div className="login-page">
               <h1>Login</h1>
-              <form onSubmit={event => this.onSubmit(event, login)}>
-                <input
-                  placeholder="Username"
-                  onChange={event =>
-                    this.setState({
-                      username: event.target.value
-                    })
-                  }
-                />
-                <input
-                  placeholder="Password"
-                  onChange={event =>
-                    this.setState({
-                      password: event.target.value
-                    })
-                  }
-                  type="password"
-                />
-                <button type="submit">Login</button>
+              <form
+                className="inline"
+                onSubmit={event => this.onSubmit(event, login)}
+              >
+                <div className="form-control">
+                  <input
+                    className="full-width"
+                    placeholder="Username"
+                    onChange={event =>
+                      this.setState({
+                        username: event.target.value
+                      })
+                    }
+                  />
+                </div>
+                <div className="form-control">
+                  <input
+                    className="full-width"
+                    placeholder="Password"
+                    onChange={event =>
+                      this.setState({
+                        password: event.target.value
+                      })
+                    }
+                    type="password"
+                  />
+                </div>
+                <button className="action-button" type="submit">
+                  Login
+                </button>
               </form>
               {error && <div>{error.message}</div>}
             </div>

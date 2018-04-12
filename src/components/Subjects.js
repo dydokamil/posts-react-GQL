@@ -19,13 +19,15 @@ class Subjects extends React.Component {
       <div className="subjects">
         <h1>Subjects</h1>
         {this.props.data.subjects && this.props.data.subjects.length ? (
-          <ul>
-            {this.props.data.subjects.map(subject => (
-              <li key={subject._id}>
-                <Link to={`/subject/${subject._id}`}>{subject.title}</Link>
-              </li>
-            ))}
-          </ul>
+          this.props.data.subjects.map(subject => (
+            <div key={subject._id}>
+              <Link to={`/subject/${subject._id}`}>{subject.title}</Link>
+              <div>
+                <small>By {subject.author.username}</small>
+              </div>
+              <hr />
+            </div>
+          ))
         ) : (
           <h2>No subjects.</h2>
         )}
@@ -85,6 +87,10 @@ export const GET_SUBJECTS_QUERY = gql`
     subjects {
       title
       _id
+      author {
+        _id
+        username
+      }
     }
   }
 `
@@ -94,6 +100,10 @@ export const SUBSCRIBE_CREATE_SUBJECT = gql`
     subjectAdded {
       title
       _id
+    }
+    author {
+      _id
+      username
     }
   }
 `

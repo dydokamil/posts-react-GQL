@@ -29,9 +29,13 @@ class EditSubject extends React.Component {
           <div className="edit-subject">
             <h1>Edit Subject</h1>
             <h2>{this.props.subjectTitle}</h2>
-            <form onSubmit={event => this.submitEdit(event, updateSubject)}>
+            <form
+              className="inline"
+              onSubmit={event => this.submitEdit(event, updateSubject)}
+            >
               <div>
                 <textarea
+                  className="full-width"
                   placeholder="Message"
                   value={this.state.message}
                   onChange={event =>
@@ -39,11 +43,16 @@ class EditSubject extends React.Component {
                   }
                 />
               </div>
-              <button type="submit">Edit</button>
+              <button className="edit-button" type="submit">
+                Edit
+              </button>
             </form>
-            <div>
-              <button onClick={this.props.closeEditSubject}>Close</button>
-            </div>
+            <button
+              className="action-button"
+              onClick={this.props.closeEditSubject}
+            >
+              Close
+            </button>
             <hr />
           </div>
         )}

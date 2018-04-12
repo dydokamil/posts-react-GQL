@@ -34,12 +34,27 @@
   width: 100%;
 }
 
-button:hover {
-  text-transform: uppercase;
-}
-
 .inline {
   display: inline;
+}
+
+hr {
+  border: 1px solid #54ffac;
+}
+
+textarea,
+input {
+  border: 0;
+  border-bottom: 1px solid #cc2f8c;
+}
+
+input:focus,
+textarea:focus {
+  outline: 0;
+}
+
+.form-control {
+  margin-bottom: 1rem;
 }
 
 /*

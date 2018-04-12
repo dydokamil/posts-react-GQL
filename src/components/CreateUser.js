@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 
 import { GET_USERS_QUERY } from './Users'
+import './Common.css'
 
 export class CreateUser extends React.Component {
   state = { username: '', email: '', password: '' }
@@ -33,35 +34,46 @@ export class CreateUser extends React.Component {
             <div>
               <h1>Create User</h1>
               <form onSubmit={event => this.onSubmit(event, createUser)}>
-                <input
-                  id="user-input"
-                  placeholder="Username"
-                  onChange={evt =>
-                    this.setState({
-                      username: evt.target.value
-                    })
-                  }
-                />
-                <input
-                  id="email-input"
-                  placeholder="Email"
-                  onChange={evt =>
-                    this.setState({
-                      email: evt.target.value
-                    })
-                  }
-                />
-                <input
-                  id="password-input"
-                  placeholder="Password"
-                  type="password"
-                  onChange={evt =>
-                    this.setState({
-                      password: evt.target.value
-                    })
-                  }
-                />
-                <button type="submit">Create</button>
+                <div className="form-control">
+                  <input
+                    className="full-width"
+                    id="user-input"
+                    placeholder="Username"
+                    onChange={evt =>
+                      this.setState({
+                        username: evt.target.value
+                      })
+                    }
+                  />
+                </div>
+                <div className="form-control">
+                  <input
+                    className=" full-width"
+                    id="email-input"
+                    placeholder="Email"
+                    onChange={evt =>
+                      this.setState({
+                        email: evt.target.value
+                      })
+                    }
+                  />
+                </div>
+                <div className="form-control ">
+                  <input
+                    id="password-input"
+                    className="full-width"
+                    placeholder="Password"
+                    type="password"
+                    onChange={evt =>
+                      this.setState({
+                        password: evt.target.value
+                      })
+                    }
+                  />
+                </div>
+                <button className="action-button" type="submit">
+                  Create
+                </button>
               </form>
               {error && <div>{error.message}</div>}
             </div>

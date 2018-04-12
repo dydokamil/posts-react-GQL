@@ -14,17 +14,15 @@ class Users extends React.Component {
         <div>{this.props.data.loading && <div>Loading users...</div>}</div>
         <div>{this.props.data.error && <div>{this.props.data.error}</div>}</div>
         <div>
-          {this.props.data.users && (
-            <ul>
-              {this.props.data.users.map(user => (
-                <li key={user._id}>
-                  <Link to={`/user/${user._id}`}>
-                    {user.username} (email: {user.email})
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
+          {this.props.data.users &&
+            this.props.data.users.map(user => (
+              <div key={user._id}>
+                <Link to={`/user/${user._id}`}>
+                  {user.username} (email: {user.email})
+                </Link>
+                <hr />
+              </div>
+            ))}
         </div>
         <CreateUser />
       </div>

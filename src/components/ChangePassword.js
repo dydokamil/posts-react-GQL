@@ -3,6 +3,8 @@ import gql from 'graphql-tag'
 import cookie from 'react-cookies'
 import { Mutation } from 'react-apollo'
 
+import './Common.css'
+
 class ChangePassword extends React.Component {
   state = { password1: '', password2: '' }
 
@@ -25,29 +27,37 @@ class ChangePassword extends React.Component {
             <div>
               <h1>Change Password</h1>
               <form
+                className="inline"
                 onSubmit={event =>
                   this.handleChangePassword(event, updatePassword)
                 }
               >
-                <input
-                  onChange={event =>
-                    this.setState({
-                      password1: event.target.value
-                    })
-                  }
-                  placeholder="Password"
-                  type="password"
-                />
-                <input
-                  onChange={event =>
-                    this.setState({
-                      password2: event.target.value
-                    })
-                  }
-                  placeholder="Repeat Password"
-                  type="password"
-                />
+                <div className="form-control">
+                  <input
+                    className="full-width"
+                    onChange={event =>
+                      this.setState({
+                        password1: event.target.value
+                      })
+                    }
+                    placeholder="Password"
+                    type="password"
+                  />
+                </div>
+                <div className="form-control">
+                  <input
+                    className="full-width"
+                    onChange={event =>
+                      this.setState({
+                        password2: event.target.value
+                      })
+                    }
+                    placeholder="Repeat Password"
+                    type="password"
+                  />
+                </div>
                 <button
+                  className="action-button"
                   type="submit"
                   disabled={
                     this.state.password1 === '' ||

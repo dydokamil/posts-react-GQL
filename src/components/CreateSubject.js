@@ -33,25 +33,32 @@ export class CreateUser extends React.Component {
             <div className="create-subject">
               <h1>Create Subject</h1>
               <form onSubmit={event => this.onSubmit(event, createSubject)}>
-                <input
-                  id="title-input"
-                  placeholder="Title"
-                  onChange={evt =>
-                    this.setState({
-                      title: evt.target.value
-                    })
-                  }
-                />
-                <input
-                  id="message-input"
-                  placeholder="Message"
-                  onChange={evt =>
-                    this.setState({
-                      message: evt.target.value
-                    })
-                  }
-                />
+                <div className="form-control">
+                  <input
+                    className="full-width"
+                    id="title-input"
+                    placeholder="Title"
+                    onChange={evt =>
+                      this.setState({
+                        title: evt.target.value
+                      })
+                    }
+                  />
+                </div>
+                <div className="form-control">
+                  <input
+                    className="full-width"
+                    id="message-input"
+                    placeholder="Message"
+                    onChange={evt =>
+                      this.setState({
+                        message: evt.target.value
+                      })
+                    }
+                  />
+                </div>
                 <button
+                  className="action-button"
                   disabled={
                     this.state.message.length === 0 ||
                     this.state.title.length === 0

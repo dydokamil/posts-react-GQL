@@ -22,6 +22,8 @@ export class CreatePost extends React.Component {
         message
       }
     })
+
+    this.setState({ message: '' })
   }
 
   render () {
@@ -37,6 +39,7 @@ export class CreatePost extends React.Component {
                   onChange={event =>
                     this.setState({ message: event.target.value })
                   }
+                  value={this.state.message}
                 />
               </div>
               <div>
